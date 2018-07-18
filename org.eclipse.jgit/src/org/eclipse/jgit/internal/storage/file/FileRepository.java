@@ -239,8 +239,8 @@ public class FileRepository extends Repository {
 		refs.create();
 		objectDatabase.create();
 
-		FileUtils.mkdir(new File(getDirectory(), "branches")); //$NON-NLS-1$
-		FileUtils.mkdir(new File(getDirectory(), "hooks")); //$NON-NLS-1$
+		FileUtils.mkdir(new File(getDirectory(), Constants.BRANCHES));
+		FileUtils.mkdir(new File(getDirectory(), Constants.HOOKS));
 
 		RefUpdate head = updateRef(Constants.HEAD);
 		head.disableRefLog();
@@ -409,7 +409,7 @@ public class FileRepository extends Repository {
 	}
 
 	private File descriptionFile() {
-		return new File(getDirectory(), "description"); //$NON-NLS-1$
+		return new File(getDirectory(), Constants.DESCRIPTION);
 	}
 
 	/**
@@ -639,8 +639,8 @@ public class FileRepository extends Repository {
 				packedRefs.getName()));
 		}
 
-		File refsFile = new File(getDirectory(), "refs"); //$NON-NLS-1$
-		File refsHeadsFile = new File(refsFile, "heads");//$NON-NLS-1$
+		File refsFile = new File(getDirectory(), Constants.REFS);
+		File refsHeadsFile = new File(refsFile, Constants.HEADS);
 		File headFile = new File(getDirectory(), Constants.HEAD);
 		FileReftableDatabase oldDb = (FileReftableDatabase) refs;
 
@@ -749,7 +749,7 @@ public class FileRepository extends Repository {
 		// Ignore return value, as it is tied to temporary newRefs file.
 		FileReftableDatabase.convertFrom(this, writeLogs);
 
-		File refsFile = new File(getDirectory(), "refs");
+		File refsFile = new File(getDirectory(), Constants.REFS);
 
 		// non-atomic: remove old data.
 		File packedRefs = new File(getDirectory(), Constants.PACKED_REFS);
@@ -759,7 +759,8 @@ public class FileRepository extends Repository {
 				.map(Ref::getName).collect(toList());
 		additional.add(Constants.HEAD);
 		if (backup) {
-			FileUtils.rename(refsFile, new File(getDirectory(), "refs.old"));
+			FileUtils.rename(refsFile,
+					new File(getDirectory(), Constants.REFS + ".old"));
 			if (packedRefs.exists()) {
 				FileUtils.rename(packedRefs, new File(getDirectory(),
 						Constants.PACKED_REFS + ".old"));
@@ -794,7 +795,7 @@ public class FileRepository extends Repository {
 
 		// Some tools might write directly into .git/refs/heads/BRANCH. By
 		// putting a file here, this fails spectacularly.
-		FileUtils.createNewFile(new File(refsFile, "heads"));
+		FileUtils.createNewFile(new File(refsFile, Constants.HEADS));
 
 		repoConfig.setString(ConfigConstants.CONFIG_EXTENSIONS_SECTION, null,
 				ConfigConstants.CONFIG_KEY_REF_STORAGE,
