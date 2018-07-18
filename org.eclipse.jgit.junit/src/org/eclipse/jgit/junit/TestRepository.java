@@ -783,7 +783,8 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 				w.append('\n');
 			}
 			writeFile(new File(new File(fr.getObjectDatabase().getDirectory(),
-					"info"), "packs"), Constants.encodeASCII(w.toString()));
+					Constants.INFO), "packs"),
+					Constants.encodeASCII(w.toString()));
 		}
 	}
 
