@@ -2102,7 +2102,7 @@ public abstract class FS {
 		case "post-receive": //$NON-NLS-1$
 		case "post-update": //$NON-NLS-1$
 		case "push-to-checkout": //$NON-NLS-1$
-			return repository.getDirectory();
+			return repository.getCommonDirectory();
 		default:
 			return repository.getWorkTree();
 		}
@@ -2115,7 +2115,7 @@ public abstract class FS {
 		if (hooksDir != null) {
 			return new File(hooksDir);
 		}
-		File dir = repository.getDirectory();
+		File dir = repository.getCommonDirectory();
 		return dir == null ? null : new File(dir, Constants.HOOKS);
 	}
 
