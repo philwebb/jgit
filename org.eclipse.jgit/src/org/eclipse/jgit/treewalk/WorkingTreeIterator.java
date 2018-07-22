@@ -1319,7 +1319,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 
 			IgnoreNode infoExclude = new IgnoreNodeWithParent(
 					coreExclude);
-			File exclude = fs.resolve(repository.getDirectory(),
+			File exclude = fs.resolve(repository.getCommonDirectory(),
 					Constants.INFO_EXCLUDE);
 			loadRulesFromFile(infoExclude, exclude);
 			if (infoExclude.getRules().isEmpty()) {
