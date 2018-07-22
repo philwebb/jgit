@@ -119,7 +119,7 @@ public class RefDirectory extends RefDatabase {
 
 	private final FileRepository parent;
 
-	private final File gitDir;
+	private final File gitCommonDir;
 
 	final File refsDir;
 
@@ -183,12 +183,11 @@ public class RefDirectory extends RefDatabase {
 	RefDirectory(FileRepository db) {
 		final FS fs = db.getFS();
 		parent = db;
-		gitDir = db.getDirectory();
-		refsDir = fs.resolve(gitDir, R_REFS);
-		logsDir = fs.resolve(gitDir, LOGS);
-		logsRefsDir = fs.resolve(gitDir, LOGS_REFS);
-		packedRefsFile = fs.resolve(gitDir, PACKED_REFS);
-
+		gitCommonDir = db.getCommonDirectory();
+		refsDir = fs.resolve(gitCommonDir, R_REFS);
+		logsDir = fs.resolve(gitCommonDir, LOGS);
+		logsRefsDir = fs.resolve(gitCommonDir, LOGS_REFS);
+		packedRefsFile = fs.resolve(gitCommonDir, PACKED_REFS);
 		looseRefs.set(RefList.<LooseRef> emptyList());
 		packedRefs.set(NO_PACKED_REFS);
 		trustFolderStat = db.getConfig()
@@ -1266,7 +1265,7 @@ public class RefDirectory extends RefDatabase {
 			name = name.substring(R_REFS.length());
 			return new File(refsDir, name);
 		}
-		return new File(gitDir, name);
+		return new File(gitCommonDir, name);
 	}
 
 	static int levelsIn(String name) {
