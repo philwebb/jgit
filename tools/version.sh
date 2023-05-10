@@ -62,7 +62,7 @@ case "$1" in
 	;;
 
 --release)
-	V=$(git describe HEAD) || exit
+	V=6.5.0.202305100000-r
 	;;
 
 *)
