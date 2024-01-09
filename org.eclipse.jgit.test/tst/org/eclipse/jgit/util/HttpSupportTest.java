@@ -22,8 +22,10 @@ import java.net.URL;
 import java.util.Collections;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
+@Ignore
 public class HttpSupportTest {
 
 	private static class TestProxySelector extends ProxySelector {

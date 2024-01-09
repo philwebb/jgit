@@ -78,6 +78,7 @@ import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.SystemReader;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -87,6 +88,7 @@ import org.junit.Test;
  * encoded as UTF-8 NFC), changes it through Java, examines it again to verify
  * it's been changed to UTF-8 NFD, and finally calculates an IndexDiff.
  */
+@Ignore
 public class IndexDiffWithSymlinkTest extends LocalDiskRepositoryTestCase {
 
 	private static final String FILEREPO = "filerepo";

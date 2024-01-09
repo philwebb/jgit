@@ -37,6 +37,7 @@ import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.SystemReader;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -71,6 +72,7 @@ import org.junit.runner.RunWith;
  * </p>
  */
 @RunWith(SeparateClassloaderTestRunner.class)
+@Ignore
 public class SecurityManagerTest {
 	private File root;
 

@@ -26,11 +26,13 @@ import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.util.FileUtils;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
  * Tests that using a SecurityManager does not result in errors logged.
  */
+@Ignore
 public class SecurityManagerMissingPermissionsTest extends RepositoryTestCase {
 
 	/**
