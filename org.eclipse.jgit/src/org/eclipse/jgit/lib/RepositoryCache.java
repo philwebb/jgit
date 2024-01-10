@@ -450,6 +450,11 @@ public class RepositoryCache {
 		 *         Git directory.
 		 */
 		public static boolean isGitRepository(File dir, FS fs) {
+			try {
+				dir = DotGit.resolveCommonDir(dir);
+			} catch (IOException e) {
+				// Ignore and continue using original dir
+			}
 			return fs.resolve(dir, Constants.OBJECTS).exists()
 					&& fs.resolve(dir, "refs").exists() //$NON-NLS-1$
 					&& (fs.resolve(dir, Constants.REFTABLE).exists()
@@ -498,8 +503,19 @@ public class RepositoryCache {
 		public static File resolve(File directory, FS fs) {
 			if (isGitRepository(directory, fs))
 				return directory;
-			if (isGitRepository(new File(directory, Constants.DOT_GIT), fs))
-				return new File(directory, Constants.DOT_GIT);
+
+			File dotGit = new File(directory, Constants.DOT_GIT);
+			if (dotGit.isDirectory() && isGitRepository(dotGit, fs))
+				return dotGit;
+			if (dotGit.isFile()) {
+				try {
+					File symRef = DotGit.getSymRef(directory, dotGit, fs);
+					if (isGitRepository(symRef, fs))
+						return symRef;
+				} catch (IOException e) {
+					// Continue searching
+				}
+			}
 
 			final String name = directory.getName();
 			final File parent = directory.getParentFile();
@@ -507,5 +523,6 @@ public class RepositoryCache {
 				return new File(parent, name + Constants.DOT_GIT_EXT);
 			return null;
 		}
+
 	}
 }

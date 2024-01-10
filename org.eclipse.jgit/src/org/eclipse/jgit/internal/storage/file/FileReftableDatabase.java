@@ -68,14 +68,13 @@ public class FileReftableDatabase extends RefDatabase {
 	private final FileReftableStack reftableStack;
 
 	FileReftableDatabase(FileRepository repo) throws IOException {
-		this(repo, new File(new File(repo.getDirectory(), Constants.REFTABLE),
-				Constants.TABLES_LIST));
+		this(repo, new File(getRefTableDir(repo), Constants.TABLES_LIST));
 	}
 
 	FileReftableDatabase(FileRepository repo, File refstackName) throws IOException {
 		this.fileRepository = repo;
 		this.reftableStack = new FileReftableStack(refstackName,
-			new File(fileRepository.getDirectory(), Constants.REFTABLE),
+				getRefTableDir(repo),
 			() -> fileRepository.fireEvent(new RefsChangedEvent()),
 			() -> fileRepository.getConfig());
 		this.reftableDatabase = new ReftableDatabase() {
@@ -317,9 +316,7 @@ public class FileReftableDatabase extends RefDatabase {
 
 	@Override
 	public void create() throws IOException {
-		FileUtils.mkdir(
-				new File(fileRepository.getDirectory(), Constants.REFTABLE),
-				true);
+		FileUtils.mkdir(getRefTableDir(fileRepository), true);
 	}
 
 	private boolean addReftable(FileReftableStack.Writer w) throws IOException {
@@ -615,8 +612,7 @@ public class FileReftableDatabase extends RefDatabase {
 		FileReftableDatabase newDb = null;
 		File reftableList = null;
 		try {
-			File reftableDir = new File(repo.getDirectory(),
-					Constants.REFTABLE);
+			File reftableDir = getRefTableDir(repo);
 			reftableList = new File(reftableDir, Constants.TABLES_LIST);
 			if (!reftableDir.isDirectory()) {
 				reftableDir.mkdir();
@@ -633,5 +629,9 @@ public class FileReftableDatabase extends RefDatabase {
 			}
 		}
 		return newDb;
+	}
+
+	private static File getRefTableDir(FileRepository repo) {
+		return new File(repo.getCommonDirectory(), Constants.REFTABLE);
 	}
 }

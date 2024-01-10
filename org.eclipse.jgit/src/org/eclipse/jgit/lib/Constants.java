@@ -358,6 +358,12 @@ public final class Constants {
 	public static final String GIT_DIR_KEY = "GIT_DIR";
 
 	/**
+	 * The environment variable that tells us which directory is the ".git"
+	 * common directory
+	 */
+	public static final String GIT_COMMON_DIR_KEY = "GIT_COMMON_DIR";
+
+	/**
 	 * The environment variable that tells us which directory is the working
 	 * directory.
 	 */

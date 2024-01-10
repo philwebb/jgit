@@ -91,22 +91,23 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	public void testCreate() throws IOException {
 		// setUp above created the directory. We just have to test it.
 		File d = diskRepo.getDirectory();
+		File cd = diskRepo.getCommonDirectory();
 		assertSame(diskRepo, refdir.getRepository());
 
-		assertTrue(new File(d, "refs").isDirectory());
-		assertTrue(new File(d, "logs").isDirectory());
-		assertTrue(new File(d, "logs/refs").isDirectory());
-		assertFalse(new File(d, "packed-refs").exists());
+		assertTrue(new File(cd, "refs").isDirectory());
+		assertTrue(new File(cd, "logs").isDirectory());
+		assertTrue(new File(cd, "logs/refs").isDirectory());
+		assertFalse(new File(cd, "packed-refs").exists());
 
-		assertTrue(new File(d, "refs/heads").isDirectory());
-		assertTrue(new File(d, "refs/tags").isDirectory());
-		assertEquals(2, new File(d, "refs").list().length);
-		assertEquals(0, new File(d, "refs/heads").list().length);
-		assertEquals(0, new File(d, "refs/tags").list().length);
+		assertTrue(new File(cd, "refs/heads").isDirectory());
+		assertTrue(new File(cd, "refs/tags").isDirectory());
+		assertEquals(2, new File(cd, "refs").list().length);
+		assertEquals(0, new File(cd, "refs/heads").list().length);
+		assertEquals(0, new File(cd, "refs/tags").list().length);
 
-		assertTrue(new File(d, "logs/refs/heads").isDirectory());
+		assertTrue(new File(cd, "logs/refs/heads").isDirectory());
 		assertFalse(new File(d, "logs/HEAD").exists());
-		assertEquals(0, new File(d, "logs/refs/heads").list().length);
+		assertEquals(0, new File(cd, "logs/refs/heads").list().length);
 
 		assertEquals("ref: refs/heads/master\n", read(new File(d, HEAD)));
 	}
@@ -1382,7 +1383,7 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	}
 
 	private void deleteLooseRef(String name) {
-		File path = new File(diskRepo.getDirectory(), name);
+		File path = new File(diskRepo.getCommonDirectory(), name);
 		assertTrue("deleted " + name, path.delete());
 	}
 }
